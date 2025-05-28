@@ -55,7 +55,7 @@ export default function WidgetSettings() {
       <label>Image URL</label><br />
       <input style={{ width: '100%' }} value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} /><br /><br />
 
-      <label>Copyright Notice</label><br />
+      <label>Copyright Notice:</label><br />
       <input style={{ width: '100%' }} value={copyright} onChange={(e) => setCopyright(e.target.value)} /><br /><br />
 
       <label>Credit Line</label><br />
