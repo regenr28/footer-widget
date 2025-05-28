@@ -48,9 +48,13 @@ export default function WidgetSettings() {
     alert('Saved!');
   };
 
-  fetch('/api/sites')
-  .then(res => res.json())
-  .then(data => console.log(data));
+  useEffect(()=>{
+    fetch('/api/sites')
+    .then(res => res.json())
+    .then(data => console.log(data));
+  },[])
+
+
 
   return (
     <div style={{ padding: '1rem', fontFamily: 'sans-serif' }}>
