@@ -51,19 +51,19 @@ export default function WidgetSettings() {
   fetch('/api/sites')
   .then(res => res.json())
   .then(data => console.log(data));
-  
+
   return (
     <div style={{ padding: '1rem', fontFamily: 'sans-serif' }}>
       <h2>Widget Settings</h2>
 
       <label>Image URL</label><br />
-      <input style={{ width: '100%' }} value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} /><br /><br />
+      <input style={{ width: '100%' }} className="inputfield" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} /><br /><br />
 
       <label>Copyright Notice:</label><br />
-      <input style={{ width: '100%' }} value={copyright} onChange={(e) => setCopyright(e.target.value)} /><br /><br />
+      <input style={{ width: '100%' }} className="inputfield" value={copyright} onChange={(e) => setCopyright(e.target.value)} /><br /><br />
 
       <label>Credit Line</label><br />
-      <input style={{ width: '100%' }} value={credit} onChange={(e) => setCredit(e.target.value)} /><br /><br />
+      <input style={{ width: '100%' }} className="inputfield" value={credit} onChange={(e) => setCredit(e.target.value)} /><br /><br />
 
       <button onClick={saveSettings}>Save Settings</button>
     </div>
