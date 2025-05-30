@@ -58,33 +58,37 @@ export default function WidgetSettings() {
   },[])
 
   const handleFileUpload = async (file) => {
-  if (!file) return;
-
-  try {
-    // Step 1: Ask your API to create the Blob URL
-    const res = await fetch('/api/upload', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: file.name,
-        type: file.type
-      })
-    });
-
-    const { url } = await res.json();
-
-    // Step 2: Upload actual file contents directly to Blob Storage
-    await fetch(url, {
-      method: 'PUT',
-      body: file
-    });
-
-    // Step 3: Save the public URL
-    setImageUrl(url);
-  } catch (err) {
-    console.error('Upload failed:', err);
-  }
-};
+    if (!file) return;
+  
+    try {
+      // Step 1: Ask your API route to generate a Blob URL
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: file.name,
+          type: file.type
+        })
+      });
+  
+      if (!res.ok) {
+        throw new Error(`Server error: ${res.status}`);
+      }
+  
+      const { url } = await res.json();
+  
+      // Step 2: Upload the file's contents to the Blob URL
+      await fetch(url, {
+        method: 'PUT',
+        body: file
+      });
+  
+      // Step 3: Save the uploaded URL to state
+      setImageUrl(url);
+    } catch (err) {
+      console.error('Upload failed:', err);
+    }
+  };
 
 
   return (
@@ -93,7 +97,7 @@ export default function WidgetSettings() {
 
       <label>Image URL</label><br />
       <input style={{ width: '100%' }} className="inputfield" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} /><br /><br />
-      <input type="file" accept="image/*" onChange={(e) => handleFileUpload(e.target.files[0])} /><br /><br />
+      <input type="file" accept="image/*"  onChange={(e) => handleFileUpload(e.target.files[0])} /><br /><br />
       <label>Copyright Notice:</label><br />
       <input style={{ width: '100%' }} className="inputfield" value={copyright} onChange={(e) => setCopyright(e.target.value)} /><br /><br />
 

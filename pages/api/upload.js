@@ -1,12 +1,15 @@
 import { put } from '@vercel/blob';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { name, type } = req.body;
 
-  const token = process.env.BLOB_READ_WRITE_TOKEN; // ✅ Server-side ONLY
-  if (!token) return res.status(500).json({ error: 'Missing token' });
+  if (!name || !type) {
+    return res.status(400).json({ error: 'Missing name or type' });
+  }
+
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
 
   const blob = await put(name, Buffer.from(''), {
     access: 'public',
@@ -14,5 +17,10 @@ export default async function handler(req, res) {
     token
   });
 
-  res.status(200).json({ url: blob.url });
+  return res.status(200).json({ url: blob.url });
 }
+export const config = {
+    api: {
+      bodyParser: true, // default; but can be made explicit
+    },
+  };
