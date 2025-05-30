@@ -58,27 +58,33 @@ export default function WidgetSettings() {
   },[])
 
   const handleFileUpload = async (file) => {
-    if (!file) return;
-  
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: file.name, type: file.type })
-      });
-      const { url } = await res.json();
-  
-      // Upload the actual file using fetch PUT
-      await fetch(url, {
-        method: 'PUT',
-        body: file
-      });
-  
-      setImageUrl(url); // Store public blob URL
-    } catch (err) {
-      console.error('Upload failed:', err);
-    }
-  };
+  if (!file) return;
+
+  try {
+    // Step 1: Ask your API to create the Blob URL
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: file.name,
+        type: file.type
+      })
+    });
+
+    const { url } = await res.json();
+
+    // Step 2: Upload actual file contents directly to Blob Storage
+    await fetch(url, {
+      method: 'PUT',
+      body: file
+    });
+
+    // Step 3: Save the public URL
+    setImageUrl(url);
+  } catch (err) {
+    console.error('Upload failed:', err);
+  }
+};
 
 
   return (
