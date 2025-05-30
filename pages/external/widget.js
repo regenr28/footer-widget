@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { put } from '@vercel/blob';
 
+
 let siteid_for_image_upload = 'ef1c0c13';
 
 const supabase = createClient(
@@ -97,7 +98,7 @@ export default function WidgetSettings() {
 
       <label>Image URL</label><br />
       <input style={{ width: '100%' }} className="inputfield" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} /><br /><br />
-      <input type="file" accept="image/*"  onChange={(e) => handleFileUpload(e.target.files[0])} /><br /><br />
+     <input type="file" accept="image/*"  onChange={(e) => handleFileUpload(e.target.files[0])} /><br /><br />
       <label>Copyright Notice:</label><br />
       <input style={{ width: '100%' }} className="inputfield" value={copyright} onChange={(e) => setCopyright(e.target.value)} /><br /><br />
 
