@@ -61,12 +61,20 @@ export default function WidgetSettings() {
     if (!file) return;
   
     try {
-      const { url } = await put(file.name, file, {
-        access: 'public',
-        token: process.env.VERCEL ? undefined : process.env.BLOB_READ_WRITE_TOKEN
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: file.name, type: file.type })
+      });
+      const { url } = await res.json();
+  
+      // Upload the actual file using fetch PUT
+      await fetch(url, {
+        method: 'PUT',
+        body: file
       });
   
-      setImageUrl(url); // Update form input & store this on save
+      setImageUrl(url); // Store public blob URL
     } catch (err) {
       console.error('Upload failed:', err);
     }
