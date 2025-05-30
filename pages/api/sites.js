@@ -19,6 +19,9 @@ export default async function handler(req, res) {
   export default async function handler(req, res) {
     const uname = process.env.DUDA_API_USERNAME;
     const pass = process.env.DUDA_API_PASSWORD;
+    console.log('DUDA_API_USERNAME:', process.env.DUDA_API_USERNAME || 'missing');
+console.log('DUDA_API_PASSWORD:', process.env.DUDA_API_PASSWORD ? 'set' : 'missing');
+
   
     if (!uname || !pass) {
       console.error('Missing Duda credentials');
