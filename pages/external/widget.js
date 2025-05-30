@@ -63,6 +63,7 @@ export default function WidgetSettings() {
     try {
       const { url } = await put(file.name, file, {
         access: 'public',
+        token: process.env.VERCEL ? undefined : process.env.BLOB_READ_WRITE_TOKEN
       });
   
       setImageUrl(url); // Update form input & store this on save
