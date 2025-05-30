@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import { put } from '@vercel/blob';
+
+let siteid_for_image_upload = 'ef1c0c13';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -54,6 +57,19 @@ export default function WidgetSettings() {
     .then(data => console.log(data));
   },[])
 
+  const handleFileUpload = async (file) => {
+    if (!file) return;
+  
+    try {
+      const { url } = await put(file.name, file, {
+        access: 'public',
+      });
+  
+      setImageUrl(url); // Update form input & store this on save
+    } catch (err) {
+      console.error('Upload failed:', err);
+    }
+  };
 
 
   return (
@@ -62,7 +78,7 @@ export default function WidgetSettings() {
 
       <label>Image URL</label><br />
       <input style={{ width: '100%' }} className="inputfield" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} /><br /><br />
-
+      <input type="file" accept="image/*" onChange={(e) => handleFileUpload(e.target.files[0])} /><br /><br />
       <label>Copyright Notice:</label><br />
       <input style={{ width: '100%' }} className="inputfield" value={copyright} onChange={(e) => setCopyright(e.target.value)} /><br /><br />
 
