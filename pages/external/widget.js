@@ -105,7 +105,7 @@ export default function WidgetSettings() {
       <label>Credit Line</label><br />
       <input style={{ width: '100%' }} className="inputfield" value={credit} onChange={(e) => setCredit(e.target.value)} /><br /><br />
 
-      <button onClick={saveSettings}>Save Settings</button>
+      <button onClick={saveSettings}>Save Settings Test 1</button>
     </div>
   );
 }
